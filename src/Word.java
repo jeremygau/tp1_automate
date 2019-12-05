@@ -6,9 +6,12 @@ import java.util.*;
 public class Word {
 
     private ArrayList<Letter> contain;
-    public ArrayList
 
-    <Letter> getContain() {
+    public Word(ArrayList<Letter> contain) {
+        this.contain = contain;
+    }
+
+    public ArrayList<Letter> getContain() {
         return this.contain;
     }
 
