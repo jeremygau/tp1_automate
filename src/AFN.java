@@ -42,21 +42,53 @@ public class AFN<S> {
         States<S> states = getSetOfInitialStates();
         for (int i = 0; i < w.getContain().size(); i++) {
             states = getTransitionRelation().successors(states, w.getContain().get(i));
-            System.out.println(states);
             if (states.getSetofStates().isEmpty()) {
                 return false;
             }
         }
-        return true;
+        Iterator<S> finalStates = states.iterator();
+        while (finalStates.hasNext()) {
+            if (isFinal(finalStates.next())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isFinal(S state) {
+        Iterator<S> finalStates = getSetOfFinalStates().iterator();
+        while (finalStates.hasNext()) {
+            if (finalStates.next().equals(state)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containFinal(States<S> states) {
+        Iterator<S> finalStates = states.iterator();
+        while (finalStates.hasNext()) {
+            if (isFinal(finalStates.next())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean EmptyLanguage() {
-        for (Letter letter : getAlphabet()) {
-            if (!getTransitionRelation().successors(getSetOfInitialStates(), letter).getSetofStates().isEmpty()) {
-                return false;
+        if (getSetOfInitialStates().getSetofStates().isEmpty()) return true;
+        if (getSetOfFinalStates().getSetofStates().isEmpty()) return true;
+
+        States<S> states = getSetOfInitialStates();
+        while (!containFinal(states)) {
+            for (Letter letter : getAlphabet()) {
+                if (getTransitionRelation().successors(states, letter).getSetofStates().isEmpty()) {
+                    return true;
+                }
+                states.addAllStates(getTransitionRelation().successors(states, letter));
             }
         }
-        return true;
+        return false;
     }
 
     public boolean isDeterministic() {
@@ -68,5 +100,32 @@ public class AFN<S> {
             }
         }
         return true;
+    }
+
+    public boolean isComplete() {
+        for (S state : getSetOfStates().getSetofStates()) {
+            for (Letter letter : getAlphabet()) {
+                if (getTransitionRelation().successor(state, letter).getSetofStates().isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void Complete() {
+        if (!isComplete()) {
+            S bin = (S)new State("bin");
+            SetOfStates.addState(bin);
+            Iterator<S> iterator = SetOfStates.iterator();
+            while (iterator.hasNext()) {
+                S state = iterator.next();
+                for (Letter letter : getAlphabet()) {
+                    if (getTransitionRelation().successor(state, letter).getSetofStates().isEmpty()) {
+                        TransitionRelation.addTransition(new Transition(state,letter,bin));
+                    }
+                }
+            }
+        }
     }
 }

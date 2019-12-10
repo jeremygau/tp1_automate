@@ -74,13 +74,20 @@ public class Automate {
         SetOfFinalStates.addState(state3);
 
         AFN<State> afn = new AFN<>(alphabet, Q, SetOfInitialStates, SetOfFinalStates, Delta);
-//        ArrayList<Letter> w = new ArrayList<>(1);
+        ArrayList<Letter> w = new ArrayList<>(1);
 //        w.add(letter2);
-//        w.add(letter1);
-//        w.add(letter1);
-//        Word word = new Word(w);
+//        w.add(letter2);
+        w.add(letter1);
+        for (int i = 0; i < 100; i++) {
+            w.add(letter1);
+        }
+        w.add(letter2);
+        Word word = new Word(w);
 //        System.out.println(afn.Recognize(word));
 //        System.out.println(afn.EmptyLanguage());
-        System.out.println(afn.isDeterministic());
+//        System.out.println(afn.isDeterministic());
+        System.out.println(afn.isComplete());
+        afn.Complete();
+        System.out.println(afn.isComplete());
     }
 }

@@ -66,20 +66,17 @@ public class States<S>
     /**
      * representation en String d'un ensemble d'états 
      */
-    public String toString()
-    {
-     Iterator<S> AllStates = this.SetofStates.iterator();
-     String Output = "[ ";
-     
-     while (AllStates.hasNext())
-     {  
-       S etat = AllStates.next();
-       Output = Output + etat.toString()+ " ";     
-     }
-        
-     Output = Output+"]";
-        
-     return Output; 
+    public String toString()     {
+         Iterator<S> AllStates = this.SetofStates.iterator();
+         String Output = "[ ";
+
+         while (AllStates.hasNext()) {
+               S etat = AllStates.next();
+               Output = Output + etat.toString()+ " ";
+         }
+         Output = Output+"]";
+
+         return Output;
     }
     
     
