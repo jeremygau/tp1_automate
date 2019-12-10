@@ -39,16 +39,32 @@ public class AFN<S> {
     }
 
     public boolean Recognize(Word w) {
-        Iterator<S> InitialStates = this.SetOfInitialStates.iterator();
-        while (InitialStates.hasNext()) { //pour chaque etat initial
-            S state = InitialStates.next();
-            for (int i = 0; i < w.getContain().size(); i++) {
-                States<S> successors = TransitionRelation.successor(state, w.getContain().get(i));
-                if (successors.getSetofStates().isEmpty()) {
+        States<S> states = getSetOfInitialStates();
+        for (int i = 0; i < w.getContain().size(); i++) {
+            states = getTransitionRelation().successors(states, w.getContain().get(i));
+            System.out.println(states);
+            if (states.getSetofStates().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean EmptyLanguage() {
+        for (Letter letter : getAlphabet()) {
+            if (!getTransitionRelation().successors(getSetOfInitialStates(), letter).getSetofStates().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isDeterministic() {
+        for (S state : getSetOfStates().getSetofStates()) {
+            for (Letter letter : getAlphabet()) {
+                if (getTransitionRelation().successor(state, letter).getSetofStates().size() > 1) {
                     return false;
                 }
-                Iterator<S> newStates = successors.iterator();
-                state = newStates.next();
             }
         }
         return true;
