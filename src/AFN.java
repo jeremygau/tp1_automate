@@ -170,6 +170,6 @@ public class AFN<S> {
                 "SetOfInitialStates=" + SetOfInitialStates +" \n" +
                 "SetOfFinalStates=" + SetOfFinalStates + "\n" +
                 "TransitionRelation=\n" + TransitionRelation +
-                '}';
+                "}\n";
     }
 }

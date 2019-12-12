@@ -90,8 +90,8 @@ public class Automate {
 //        afn.Complete();
 //        System.out.println("Is complete " + afn.isComplete());
         AFN<State> afnMirror = afn.Mirror();
-//        System.out.println(afn);
-//        System.out.println(afnMirror);
+        System.out.println(afn);
+        System.out.println(afnMirror);
         System.out.println("Reachable states " + afn.Reachable());
         System.out.println("Coreachable afnmirror " + afnMirror.Coreachable());
         System.out.println("Reachable afnmirror " + afnMirror.Reachable());
