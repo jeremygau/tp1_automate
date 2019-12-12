@@ -93,7 +93,8 @@ public class Automate {
 //        System.out.println(afn);
 //        System.out.println(afnMirror);
         System.out.println("Reachable states " + afn.Reachable());
-//        System.out.println(afnMirror.Coreachable());
+        System.out.println("Coreachable afnmirror " + afnMirror.Coreachable());
+        System.out.println("Reachable afnmirror " + afnMirror.Reachable());
         System.out.println("Coreachable states " + afn.Coreachable());
     }
 }

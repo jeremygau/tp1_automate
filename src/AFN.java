@@ -151,28 +151,12 @@ public class AFN<S> {
             temporareStates = getTransitionRelation().successors(temporareStates, letter);
             while (!reachablesStates.contains(temporareStates)) {
                 reachablesStates.addAllStates(temporareStates);
+                System.out.println(reachablesStates);
             }
         }
         return reachablesStates;
     }
 
-//    public States<S> Coreachable() {
-//        States<S> coreachablesStates = new States<>();
-//        if (getSetOfFinalStates().getSetofStates().isEmpty()) return coreachablesStates;
-//        States<S> temporareStates = new States<>();
-//        Iterator<S> iterator = getSetOfStates().iterator();
-//        while (iterator.hasNext()) {
-//            S state = iterator.next();
-//            for (Letter letter : getAlphabet()) {
-//                temporareStates.addState(state);
-//                if (containFinal(temporareStates)) {
-//                    coreachablesStates.addState(state);
-//                }
-//                temporareStates = getTransitionRelation().successors(temporareStates, letter);
-//            }
-//        }
-//        return coreachablesStates;
-//    }
 
     public States<S> Coreachable() {
         return this.Mirror().Reachable();
