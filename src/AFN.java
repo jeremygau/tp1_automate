@@ -128,4 +128,17 @@ public class AFN<S> {
             }
         }
     }
+
+    public AFN<S> Mirror() {
+        Iterator<Transition<S>> iterator = getTransitionRelation().getSetofTransitions().iterator();
+        Transitions<S> transitions = new Transitions<>();
+        while (iterator.hasNext()) {
+            Transition<S> cur = iterator.next();
+            Transition<S> transition = new Transition<>(cur.getTarget(), cur.getLabel(), cur.getSource());
+            transitions.addTransition(transition);
+        }
+        return new AFN<S>(getAlphabet(), getSetOfStates(), getSetOfFinalStates(), getSetOfInitialStates(), transitions);
+    }
+
+
 }
