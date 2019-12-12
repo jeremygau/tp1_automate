@@ -18,6 +18,9 @@ public class AFN<S> {
         TransitionRelation = transitionRelation;
     }
 
+    /**
+     * accesseurs
+     */
     public HashSet<Letter> getAlphabet() {
         return Alphabet;
     }
@@ -38,6 +41,9 @@ public class AFN<S> {
         return TransitionRelation;
     }
 
+    /**
+     * retourne vrai si le mot donné en parametre est dans le langage défini par l’automate et faux sinon
+     */
     public boolean Recognize(Word w) {
         States<S> states = getSetOfInitialStates();
         for (int i = 0; i < w.getContain().size(); i++) {
@@ -55,6 +61,9 @@ public class AFN<S> {
         return false;
     }
 
+    /**
+     * renvoie vrai si l'etat donné en parametre est final, faux sinon
+     */
     public boolean isFinal(S state) {
         Iterator<S> finalStates = getSetOfFinalStates().iterator();
         while (finalStates.hasNext()) {
@@ -65,6 +74,9 @@ public class AFN<S> {
         return false;
     }
 
+    /**
+     * revoie vrai si l'ensemble d'etats donné en parametre contient au moins 1 etats final, faux sinon
+     */
     public boolean containFinal(States<S> states) {
         Iterator<S> finalStates = states.iterator();
         while (finalStates.hasNext()) {
@@ -75,12 +87,15 @@ public class AFN<S> {
         return false;
     }
 
-    //TODO : corriger emptylanguage
+    /**
+     * teste si le langage défini par l’automateest vide ou non
+     */
     public boolean EmptyLanguage() {
         if (getSetOfInitialStates().getSetofStates().isEmpty()) return true;
         if (getSetOfFinalStates().getSetofStates().isEmpty()) return true;
 
-        States<S> states = getSetOfInitialStates();
+        States<S> states = new States<>();
+        states.addAllStates(getSetOfInitialStates());
         while (!containFinal(states)) {
             for (Letter letter : getAlphabet()) {
                 if (getTransitionRelation().successors(states, letter).getSetofStates().isEmpty()) {
@@ -92,6 +107,9 @@ public class AFN<S> {
         return false;
     }
 
+    /**
+     * teste si l’automate est déterministe
+     */
     public boolean isDeterministic() {
         for (S state : getSetOfStates().getSetofStates()) {
             for (Letter letter : getAlphabet()) {
@@ -103,6 +121,9 @@ public class AFN<S> {
         return true;
     }
 
+    /**
+     * teste si l’automate est complet
+     */
     public boolean isComplete() {
         for (S state : getSetOfStates().getSetofStates()) {
             for (Letter letter : getAlphabet()) {
@@ -114,6 +135,9 @@ public class AFN<S> {
         return true;
     }
 
+    /**
+     * complète si nécessaire l’automate
+     */
     public void Complete() {
         if (!isComplete()) {
             S bin = (S)new State("bin");
@@ -128,6 +152,9 @@ public class AFN<S> {
         }
     }
 
+    /**
+     * calcule le miroir de l’automate
+     */
     public AFN<S> Mirror() {
         Transitions<S> transitions = new Transitions<>();
         for (Transition<S> cur : getTransitionRelation().getSetofTransitions()) {
@@ -137,7 +164,9 @@ public class AFN<S> {
         return new AFN<S>(getAlphabet(), getSetOfStates(), getSetOfFinalStates(), getSetOfInitialStates(), transitions);
     }
 
-    //TODO corriger Reachable
+    /**
+     * retourne l’ensemble des états accessibles de l'automate
+     */
     public States<S> Reachable() {
         States<S> reachablesStates = new States<>();
         if (getSetOfInitialStates().getSetofStates().isEmpty()) return reachablesStates;
@@ -157,11 +186,16 @@ public class AFN<S> {
         return reachablesStates;
     }
 
-
+    /**
+     * retourne l’ensemble des états co-accessibles de l'automate
+     */
     public States<S> Coreachable() {
         return this.Mirror().Reachable();
     }
 
+    /**
+     * élimine de l’automate les états non accessibles ou non co-accessibles ainsi que les transitions les utilisant.
+     */
     public void Trim() {
         States<S> uselessStates = Reachable();
         uselessStates.addAllStates(Coreachable());

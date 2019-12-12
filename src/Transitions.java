@@ -33,6 +33,9 @@ public class Transitions<S>
       this.SetofTransitions.add(t);   
     }
 
+    /**
+     * Enlevement d'une transition
+     */
     public void removeTransition(Transition<S> t) {
         this.SetofTransitions.remove(t);
     }

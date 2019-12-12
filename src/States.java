@@ -45,6 +45,9 @@ public class States<S> implements Iterable<S>
       this.SetofStates.add(s);   
     }
 
+    /**
+     * Enlevement d'un état
+     */
     public void removeState(S s) {
         this.SetofStates.remove(s);
     }
@@ -83,10 +86,11 @@ public class States<S> implements Iterable<S>
          return Output;
     }
 
+    /**
+     * renvoie vrai si tous les états de l'ensemble d'états sont contenus dans cet ensemble d'états
+     */
     public boolean containsAll(States<S> states) {
-        Iterator<S> iterator = states.iterator();
-        while (iterator.hasNext()) {
-            S state = iterator.next();
+        for (S state : states) {
             if (!getSetofStates().contains(state)) {
                 return false;
             }

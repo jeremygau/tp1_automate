@@ -18,7 +18,7 @@ public class State
     }
 
     /**
-     * accesseur 
+     * accesseurs
      */
     public String getName()
     {
