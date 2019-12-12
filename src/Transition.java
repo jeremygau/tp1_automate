@@ -34,4 +34,19 @@ public class Transition<S>
     public String toString() {
         return "[" + source + ", " + label + ", " +  target + "]";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transition<?> that = (Transition<?>) o;
+        return Objects.equals(source, that.source) &&
+                Objects.equals(target, that.target) &&
+                Objects.equals(label, that.label);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(source, target, label);
+    }
 }

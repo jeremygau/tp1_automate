@@ -4,7 +4,7 @@ import java.util.*;
  * classe States 
  *
  */
-public class States<S>
+public class States<S> implements Iterable<S>
 {
     private HashSet<S> SetofStates; 
 
@@ -44,6 +44,10 @@ public class States<S>
     {
       this.SetofStates.add(s);   
     }
+
+    public void removeState(S s) {
+        this.SetofStates.remove(s);
+    }
     
     /**
      * Union de deux States 
@@ -79,7 +83,7 @@ public class States<S>
          return Output;
     }
 
-    public boolean contains(States<S> states) {
+    public boolean containsAll(States<S> states) {
         Iterator<S> iterator = states.iterator();
         while (iterator.hasNext()) {
             S state = iterator.next();

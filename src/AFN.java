@@ -118,9 +118,7 @@ public class AFN<S> {
         if (!isComplete()) {
             S bin = (S)new State("bin");
             SetOfStates.addState(bin);
-            Iterator<S> iterator = SetOfStates.iterator();
-            while (iterator.hasNext()) {
-                S state = iterator.next();
+            for(S state : SetOfStates) {
                 for (Letter letter : getAlphabet()) {
                     if (getTransitionRelation().successor(state, letter).getSetofStates().isEmpty()) {
                         TransitionRelation.addTransition(new Transition(state,letter,bin));
@@ -131,10 +129,8 @@ public class AFN<S> {
     }
 
     public AFN<S> Mirror() {
-        Iterator<Transition<S>> iterator = getTransitionRelation().getSetofTransitions().iterator();
         Transitions<S> transitions = new Transitions<>();
-        while (iterator.hasNext()) {
-            Transition<S> cur = iterator.next();
+        for (Transition<S> cur : getTransitionRelation().getSetofTransitions()) {
             Transition<S> transition = new Transition<>(cur.getTarget(), cur.getLabel(), cur.getSource());
             transitions.addTransition(transition);
         }
@@ -145,13 +141,17 @@ public class AFN<S> {
     public States<S> Reachable() {
         States<S> reachablesStates = new States<>();
         if (getSetOfInitialStates().getSetofStates().isEmpty()) return reachablesStates;
+
         reachablesStates.addAllStates(getSetOfInitialStates());
         States<S> temporareStates = getSetOfInitialStates();
-        for (Letter letter : getAlphabet()) {
-            temporareStates = getTransitionRelation().successors(temporareStates, letter);
-            while (!reachablesStates.contains(temporareStates)) {
+        boolean continuer = true;
+        while (continuer){
+            continuer = false;
+            for (Letter letter : getAlphabet()) {
+                temporareStates = getTransitionRelation().successors(reachablesStates, letter);
+                if(!reachablesStates.containsAll(temporareStates))
+                    continuer = true;
                 reachablesStates.addAllStates(temporareStates);
-                System.out.println(reachablesStates);
             }
         }
         return reachablesStates;
@@ -160,6 +160,19 @@ public class AFN<S> {
 
     public States<S> Coreachable() {
         return this.Mirror().Reachable();
+    }
+
+    public void Trim() {
+        States<S> uselessStates = Reachable();
+        uselessStates.addAllStates(Coreachable());
+        for (S uselessState : uselessStates) {
+            SetOfStates.removeState(uselessState);
+            for (Transition<S> transition : getTransitionRelation().getSetofTransitions()) {
+                if (transition.getSource() == uselessState || transition.getLabel() == uselessState) {
+                    TransitionRelation.removeTransition(transition);
+                }
+            }
+        }
     }
 
     @Override

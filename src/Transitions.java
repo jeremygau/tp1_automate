@@ -6,20 +6,20 @@ import java.util.*;
  */
 public class Transitions<S>
 {
-    private HashSet<Transition<S>> SetofTransitions; 
+    private Set<Transition<S>> SetofTransitions;
     
     /**
      * Constructeur d'objets de classe Transitions initialement vide
      */
     public Transitions()
     {
-      this.SetofTransitions = new HashSet<Transition<S>>();  
+      this.SetofTransitions = new HashSet<Transition<S>>();
     }
     
     /**
      * Constructeur d'objets de classe Transitions à partir d'un ensemble de transitions
      */
-    public Transitions(HashSet<Transition<S>> T)
+    public Transitions(Set<Transition<S>> T)
     {
       this.SetofTransitions = T;  
     }
@@ -32,11 +32,15 @@ public class Transitions<S>
     {
       this.SetofTransitions.add(t);   
     }
+
+    public void removeTransition(Transition<S> t) {
+        this.SetofTransitions.remove(t);
+    }
     
     /**
      * Retourne l'ensemble des transitions représenté  
      */
-    public HashSet<Transition<S>> getSetofTransitions()
+    public Set<Transition<S>> getSetofTransitions()
     {
       return this.SetofTransitions;   
     }
@@ -44,17 +48,14 @@ public class Transitions<S>
     /**
      * Successeurs de l'état s et de la lettre a par les transitions
      */
-    States<S> successor(S s,Letter a)
-    {
-     States<S> Targets = new States<S>(); 
-     Iterator<Transition<S>> AllTransitions = this.SetofTransitions.iterator();
-        while (AllTransitions.hasNext()) {
-            Transition<S> transition = AllTransitions.next();
+    States<S> successor(S s,Letter a) {
+        States<S> Targets = new States<S>();
+        for (Transition<S> transition : SetofTransitions) {
             if (transition.getLabel() == a && transition.getSource() == s) {
                 Targets.addState(transition.getTarget());
             }
         }
-     return Targets; 
+        return Targets;
     }
     
  /**
