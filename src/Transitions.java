@@ -69,5 +69,15 @@ public class Transitions<S>
         }
         return Targets;
     }
-    
- }
+
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        string.append("[");
+        for (Transition<S> transition : SetofTransitions) {
+            string.append(transition);
+        }
+        string.append("]");
+        return string.toString();
+    }
+}

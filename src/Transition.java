@@ -29,5 +29,9 @@ public class Transition<S>
     
     public Letter getLabel()
     {return this.label;}
- 
+
+    @Override
+    public String toString() {
+        return "[" + source + ", " + label + ", " +  target + "]";
+    }
 }

@@ -75,6 +75,7 @@ public class AFN<S> {
         return false;
     }
 
+    //TODO : corriger emptylanguage
     public boolean EmptyLanguage() {
         if (getSetOfInitialStates().getSetofStates().isEmpty()) return true;
         if (getSetOfFinalStates().getSetofStates().isEmpty()) return true;
@@ -140,5 +141,51 @@ public class AFN<S> {
         return new AFN<S>(getAlphabet(), getSetOfStates(), getSetOfFinalStates(), getSetOfInitialStates(), transitions);
     }
 
+    //TODO corriger Reachable
+    public States<S> Reachable() {
+        States<S> reachablesStates = new States<>();
+        if (getSetOfInitialStates().getSetofStates().isEmpty()) return reachablesStates;
+        reachablesStates.addAllStates(getSetOfInitialStates());
+        States<S> temporareStates = getSetOfInitialStates();
+        for (Letter letter : getAlphabet()) {
+            temporareStates = getTransitionRelation().successors(temporareStates, letter);
+            while (!reachablesStates.contains(temporareStates)) {
+                reachablesStates.addAllStates(temporareStates);
+            }
+        }
+        return reachablesStates;
+    }
 
+//    public States<S> Coreachable() {
+//        States<S> coreachablesStates = new States<>();
+//        if (getSetOfFinalStates().getSetofStates().isEmpty()) return coreachablesStates;
+//        States<S> temporareStates = new States<>();
+//        Iterator<S> iterator = getSetOfStates().iterator();
+//        while (iterator.hasNext()) {
+//            S state = iterator.next();
+//            for (Letter letter : getAlphabet()) {
+//                temporareStates.addState(state);
+//                if (containFinal(temporareStates)) {
+//                    coreachablesStates.addState(state);
+//                }
+//                temporareStates = getTransitionRelation().successors(temporareStates, letter);
+//            }
+//        }
+//        return coreachablesStates;
+//    }
+
+    public States<S> Coreachable() {
+        return this.Mirror().Reachable();
+    }
+
+    @Override
+    public String toString() {
+        return "AFN{" +
+                "Alphabet=" + Alphabet + "\n" +
+                "SetOfStates=" + SetOfStates + "\n" +
+                "SetOfInitialStates=" + SetOfInitialStates +" \n" +
+                "SetOfFinalStates=" + SetOfFinalStates + "\n" +
+                "TransitionRelation=\n" + TransitionRelation +
+                '}';
+    }
 }

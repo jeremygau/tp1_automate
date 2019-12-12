@@ -83,12 +83,17 @@ public class Automate {
         }
         w.add(letter2);
         Word word = new Word(w);
-        System.out.println("Recognize " + word + " " + afn.Recognize(word));
-        System.out.println("Has empty language " + afn.EmptyLanguage());
-        System.out.println("Is deteministic " + afn.isDeterministic());
-        System.out.println("Is complete " + afn.isComplete());
-        afn.Complete();
-        System.out.println("Is complete " + afn.isComplete());
+//        System.out.println("Recognize " + word + " " + afn.Recognize(word));
+//        System.out.println("Has empty language " + afn.EmptyLanguage());
+//        System.out.println("Is deteministic " + afn.isDeterministic());
+//        System.out.println("Is complete " + afn.isComplete());
+//        afn.Complete();
+//        System.out.println("Is complete " + afn.isComplete());
         AFN<State> afnMirror = afn.Mirror();
+//        System.out.println(afn);
+//        System.out.println(afnMirror);
+        System.out.println("Reachable states " + afn.Reachable());
+//        System.out.println(afnMirror.Coreachable());
+        System.out.println("Coreachable states " + afn.Coreachable());
     }
 }

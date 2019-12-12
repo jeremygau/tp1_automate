@@ -78,6 +78,17 @@ public class States<S>
 
          return Output;
     }
+
+    public boolean contains(States<S> states) {
+        Iterator<S> iterator = states.iterator();
+        while (iterator.hasNext()) {
+            S state = iterator.next();
+            if (!getSetofStates().contains(state)) {
+                return false;
+            }
+        }
+        return true;
+    }
     
     
     
