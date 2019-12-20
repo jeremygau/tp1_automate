@@ -1,3 +1,3 @@
-# tp1_et_2_automate
+# tp1_2_et_3_automate
 
 GAU Jérémy - FORNER Yann
